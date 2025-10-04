@@ -8,11 +8,11 @@ from rest_framework.views import APIView
 
 
 
-# posts=[
-#     {"id":1,"title":"First Post","content":"This is the content of the first post."},
-#     {"id":2,"title":"Second Post","content":"This is the content of the second post."},
-#     {"id":3,"title":"Third Post","content":"This is the content of the third post."}
-# ]
+posts=[
+    {"id":1,"title":"First Post","content":"This is the content of the first post."},
+    {"id":2,"title":"Second Post","content":"This is the content of the second post."},
+    {"id":3,"title":"Third Post","content":"This is the content of the third post."}
+]
 
 
 
@@ -21,15 +21,15 @@ from rest_framework.views import APIView
 
 @api_view(http_method_names=["GET","POST"])
 def homepage(request: Request):
-    pass
+    
 
-#     if request.method=="POST":
-#         data=request.data
-#         response={"message":"this is homepage","data":data}
-#         return Response(data=response,status=status.HTTP_201_CREATED)
+    if request.method=="POST":
+        data=request.data
+        response={"message":"this is homepage","data":data}
+        return Response(data=response,status=status.HTTP_201_CREATED)
         
-#     response={"message":"this is homepage"}
-#     return Response(data=response,status=status.HTTP_200_OK)
+    response={"message":"this is homepage"}
+    return Response(data=response,status=status.HTTP_200_OK)
 
 
 
@@ -62,11 +62,11 @@ def list_posts(request: Request):
 
 @api_view(http_method_names=["GET"])
 def post_detail(request: Request,post_index:int):
-    pass
-#     post=posts[post_index]
     
-#     if post:
-#         return Response(data=post,status=status.HTTP_200_OK)
+    post=posts[post_index]
     
-#     return Response(data={"message":"post not found"},status=status.HTTP_404_NOT_FOUND)
+    if post:
+        return Response(data=post,status=status.HTTP_200_OK)
+    
+    return Response(data={"message":"post not found"},status=status.HTTP_404_NOT_FOUND)
     
