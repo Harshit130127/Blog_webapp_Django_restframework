@@ -33,31 +33,50 @@ def homepage(request: Request):
 
 
 
+# ...............this is without using generic and class views.................
+# @api_view(http_method_names=["GET","POST"])
+# def list_posts(request: Request):
+#     posts=Post.objects.all()
+    
+    
+#     if request.method=="POST":
+#         data=request.data
+        
+#         serializer=PostSerializer(data=data)
+        
+#         if serializer.is_valid():
+#             serializer.save()  # saves the data to the database
+#             response={"message":"post created successfully","data":serializer.data}
+#             return Response(data=response,status=status.HTTP_201_CREATED)
+    
+#         return Response(data=serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
+#     serializer=PostSerializer(instance=posts,many=True)  # here many=True is used to serialize multiple objects
+    
+    
+#     response={"message":"list of posts","data":serializer.data}   # format the response in this way
+    
+    
+#     return Response(data=response,status=status.HTTP_200_OK)
 
-@api_view(http_method_names=["GET","POST"])
-def list_posts(request: Request):
-    posts=Post.objects.all()
+# .......................this is using class based views...................
+class PostListCreateView(APIView):
     
+    def get(self,request: Request):  # to list all posts
+        posts=Post.objects.all()
+        serializer=PostSerializer(instance=posts,many=True)  # here many=True is used to serialize multiple objects
+        response={"message":"list of posts","data":serializer.data}   # format the response in this way
+        return Response(data=response,status=status.HTTP_200_OK)
     
-    if request.method=="POST":
+    def post(self,request: Request):   # to create a new post
         data=request.data
-        
-        serializer=PostSerializer(data=data)
-        
+        # serializer=PostSerializer(data=data)
+        serializer=self.serilaizer_class(data=data)  # using serializer class attribute
         if serializer.is_valid():
             serializer.save()  # saves the data to the database
             response={"message":"post created successfully","data":serializer.data}
             return Response(data=response,status=status.HTTP_201_CREATED)
-    
         return Response(data=serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-    
-    serializer=PostSerializer(instance=posts,many=True)  # here many=True is used to serialize multiple objects
-    
-    
-    response={"message":"list of posts","data":serializer.data}   # format the response in this way
-    
-    
-    return Response(data=response,status=status.HTTP_200_OK)
 
 
 @api_view(http_method_names=["GET"])
