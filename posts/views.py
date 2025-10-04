@@ -6,7 +6,7 @@ from .models import Post
 from .serializers import PostSerializer
 from rest_framework.views import APIView
 
-
+from django.shortcuts import get_object_or_404
 
 posts=[
     {"id":1,"title":"First Post","content":"This is the content of the first post."},
@@ -63,10 +63,38 @@ def list_posts(request: Request):
 @api_view(http_method_names=["GET"])
 def post_detail(request: Request,post_index:int):
     
-    post=posts[post_index]
+    post=get_object_or_404(Post,pk=post_index)  # fetch the post with the given post_index or return 404 if not found
     
-    if post:
-        return Response(data=post,status=status.HTTP_200_OK)
+    serializer=PostSerializer(instance=post)  # serialize the post object
     
-    return Response(data={"message":"post not found"},status=status.HTTP_404_NOT_FOUND)
     
+    response={"message":"post details","data":serializer.data}   # format the response in this way
+    return Response(data=response,status=status.HTTP_404_NOT_FOUND)   # return 404 if post not found
+    
+
+
+
+@api_view(http_method_names=["PUT"])
+def update_post(request: Request,post_index:int):
+    post=get_object_or_404(Post,pk=post_index)  # fetch the post with the given post_index or return 404 if not found
+    
+    data=request.data
+    
+    serializer=PostSerializer(instance=post,data=data)  # serialize the post object with the new data
+    
+    if serializer.is_valid():
+        serializer.save()  # saves the updated data to the database
+        response={"message":"post updated successfully","data":serializer.data}
+        return Response(data=response,status=status.HTTP_200_OK)
+    
+    return Response(data=serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(http_method_names=["DELETE"])
+def delete_post(request: Request,post_index:int):
+    post=get_object_or_404(Post,pk=post_index)  # fetch the post with the given post_index or return 404 if not found
+    
+    post.delete()  # delete the post from the database
+    
+    response={"message":"post deleted successfully"}
+    return Response(data=response,status=status.HTTP_200_OK)

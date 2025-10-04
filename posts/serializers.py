@@ -10,6 +10,9 @@ from .models import Post
 
 
 class PostSerializer(serializers.ModelSerializer):  #model based serializer
+    
+    title=serializers.CharField(max_length=50)  # adding extra validation 
+    
     class Meta:
         model=Post
         fields=["id","title","content","created"]
