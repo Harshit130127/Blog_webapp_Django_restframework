@@ -70,8 +70,7 @@ class PostListCreateView(APIView):
     
     def post(self,request: Request):   # to create a new post
         data=request.data
-        # serializer=PostSerializer(data=data)
-        serializer=self.serilaizer_class(data=data)  # using serializer class attribute
+        serializer=PostSerializer(data=data)
         if serializer.is_valid():
             serializer.save()  # saves the data to the database
             response={"message":"post created successfully","data":serializer.data}
