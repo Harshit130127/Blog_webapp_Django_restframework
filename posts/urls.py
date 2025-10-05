@@ -11,6 +11,6 @@ urlpatterns = [
     # path("update/<int:post_index>/",views.update_post,name="update_post"),
     # path("delete/<int:post_index>/",views.delete_post,name="delete_post"),
     # path("<int:pk>/",views.PostRetrieveUpdateDeleteView.as_view(),name="post_rud"),  # using class based views
-    path("<int:pk>/",views.generics.RetrieveUpdateDestroyAPIView.as_view(),name="post_rud"),  # using generic class based views
+path("<int:pk>/", views.PostRetrieveUpdateDeleteView.as_view(), name="post_rud"),
 ]
 
