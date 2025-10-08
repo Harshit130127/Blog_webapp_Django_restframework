@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.auth.base_user import BaseUserManager,AbstractBaseUser
+from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 
@@ -21,3 +22,24 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault("is_staff",True)
         
         extra_fields.setdefault("is_superuser",True)
+        
+        if extra_fields.get("is_staff") is not True:
+            raise ValueError("Superuser must have is_staff=True") 
+        
+        if extra_fields.get("is_superuser") is not True:
+            raise ValueError("Superuser must have is_superuser=True")
+        
+        
+        return self.create_user(email=email,password=password,**extra_fields)
+    
+    
+    
+class User(AbstractUser):
+    email=models.EmailField(unique=True,max_length=75)
+    username=models.CharField(max_length=50,unique=True)
+    date_of_birth=models.DateField(null=True,blank=True)
+    
+    objects=CustomUserManager()
+    
+    def __str__(self):
+        return self.username
