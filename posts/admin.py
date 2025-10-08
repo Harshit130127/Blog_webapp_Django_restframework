@@ -3,5 +3,9 @@ from .models import Post
 # Register your models here.
 
 
-
-admin.site.register(Post)
+# to customize the admin interface( post model customization)
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    list_display=["title","created"]
+    
+    list_filter=["created"]
