@@ -6,7 +6,7 @@ from rest_framework import generics,status
 from rest_framework.response import Response
 from .models import User
 
-from rest_framework.requests import Request
+from rest_framework.request import Request
 
 # Create your views here.
 
