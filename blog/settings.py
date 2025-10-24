@@ -60,6 +60,16 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "blog.urls"
 
+
+#  USE OF IT IS THAT WE CAN CUSTOMIZE THE NON FIELD ERRORS KEY NAME
+REST_FRAMEWORK={
+    
+    "NON_FIELD_ERRORS_KEY":"errors"     # non field errors means those errors which are not related to any specific field
+    
+}
+
+
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",

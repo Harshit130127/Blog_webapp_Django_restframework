@@ -23,3 +23,15 @@ class SignUpSerializer(serializers.ModelSerializer):
         
         
         return super().validate(attrs)
+    
+    
+    def create(self, validated_data):
+        password = validated_data.pop('password')   # removing password from validated data because we will set it using set_password method
+        
+        user=super().create(validated_data)   # creating user using the remaining validated data
+        
+        user.set_password(password)   # setting password using set_password method to hash it properly
+        
+        user.save()   # saving the user instance
+        
+        return user
