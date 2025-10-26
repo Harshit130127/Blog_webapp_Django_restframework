@@ -47,7 +47,20 @@ class LoginView(APIView):
         password=request.data.get('password')
         
         
+        user=authenticate(email=email,password=password)
         
+        if user is not None:
+            response={
+                'message':'Login successful',
+                "token":user.auth_token.key
+            }
+            
+            
+            return Response(data=response,status=status.HTTP_200_OK)
+        
+        
+        else:
+            return Response(data={'error':'Invalid email or password'},status=status.HTTP_401_UNAUTHORIZED)
         
     def get(self,request:Request):
         content={'user':str(request.user),'auth':str(request.auth)}
