@@ -64,8 +64,16 @@ ROOT_URLCONF = "blog.urls"
 #  USE OF IT IS THAT WE CAN CUSTOMIZE THE NON FIELD ERRORS KEY NAME
 REST_FRAMEWORK={
     
-    "NON_FIELD_ERRORS_KEY":"errors"     # non field errors means those errors which are not related to any specific field
+    "NON_FIELD_ERRORS_KEY":"errors" ,    # non field errors means those errors which are not related to any specific field
+    "DEFAULT_AUTHENTICATION_CLASSES":(
+        
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
     
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",)
 }
 
 
