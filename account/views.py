@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from .models import User
 
 from rest_framework.request import Request
-
+from rest_framework.views import APIView
 # Create your views here.
 
 class SignUpView(generics.GenericAPIView):
@@ -32,3 +32,9 @@ class SignUpView(generics.GenericAPIView):
             return Response(data=response,status=status.HTTP_201_CREATED)
         
         return Response(data=serializer.data,status=status.HTTP_400_BAD_REQUEST)
+    
+    
+#  difference between APIView and GenericAPIView is that GenericAPIView provides built in methods like get_serializer, get_queryset etc which are not present in APIView
+# in api view we have to define everything from scratch
+class LoginView(APIView):
+    pass
