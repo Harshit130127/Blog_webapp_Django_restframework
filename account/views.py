@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.contrib.auth import authenticate
 from .serializers import SignUpSerializer
 from rest_framework import generics,status
 
@@ -37,4 +37,20 @@ class SignUpView(generics.GenericAPIView):
 #  difference between APIView and GenericAPIView is that GenericAPIView provides built in methods like get_serializer, get_queryset etc which are not present in APIView
 # in api view we have to define everything from scratch
 class LoginView(APIView):
-    pass
+    
+    
+    
+    def post(self,request:Request):
+        
+        email=request.data.get('email')
+        
+        password=request.data.get('password')
+        
+        
+        
+        
+    def get(self,request:Request):
+        content={'user':str(request.user),'auth':str(request.auth)}
+        
+        
+        return Response(data=content,status=status.HTTP_200_OK)
