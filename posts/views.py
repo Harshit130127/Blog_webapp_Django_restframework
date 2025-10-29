@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from .models import Post
 from .serializers import PostSerializer
 from rest_framework.views import APIView
-
+from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 
 posts=[
@@ -158,6 +158,7 @@ class PostListCreateView(generics.GenericAPIView,
                           mixins.CreateModelMixin):
     
     serializer_class=PostSerializer
+    permission_classes = [IsAuthenticated]
     queryset=Post.objects.all()
     
     def get(self,request: Request, *args, **kwargs):
